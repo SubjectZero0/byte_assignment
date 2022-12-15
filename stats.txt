@@ -1,0 +1,8 @@
+CATEGORY           MOST EXPENSIVE PRODUCT           PRICE   CAT STOCK
+----------------   -------------------------------  -----   ---------
+    smartphones                     Samsung Universe 9 1249 319
+        laptops                            MacBook Pro 1749 386
+     fragrances Non-Alcoholic Concentrated Perfume Oil  120 397
+       skincare          Freckle Treatment Cream- 15gm   70 470
+      groceries                   Gulab Powder 50 Gram   70 465
+home-decoration                Handcraft Chinese style   60 263
