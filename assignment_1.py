@@ -21,9 +21,6 @@ data_list = get_json(url_list)
 #create a pandas Dataframe with all the products
 products_DF = pd.DataFrame(data_list[0]['products'])
 
-
-#create a list of product categories.
-categories = data_list[1]
 #-----------------------------------------------------
 
 #display the price of the most expensive item
@@ -32,35 +29,19 @@ print(products_DF[['price']].max())
 #------------------------------------------------------
 
 #create a Dataframe that groups items by category, title and max price
-grouped_by_cat = products_DF.groupby(['category','title'])[['price']].max()
+grouped_by_cat = products_DF.groupby(['category','title'],as_index=False)[['price']].max()
 
 
-#Initialize helper variables
-most_expensive_items_by_cat=pd.DataFrame()
-cat=[]
-name = []
+#From that DataFrame, extract a new one with only the most expensive items
+most_expensive_items_by_cat=grouped_by_cat.sort_values(by='price', ascending=False).groupby('category',as_index=False).head(1)
 
-#loop through categories and find the most expensive item of every category
-for category in categories:
-    if category in grouped_by_cat.index:
-        cat.append(category)
-        name.append(grouped_by_cat.loc[category].idxmax().values.tolist()[0])
-
-#append categories and item titles to the new DataFrame.   
-most_expensive_items_by_cat['category']=cat
-most_expensive_items_by_cat['title']=name
-
-#create a DataFrame that groups by category and max price
-highest_price_by_category = products_DF.groupby('category')[['price']].max()
 
 #create a Dataframe that contains the categories and the sum of items in stock per category
 stock_per_category = products_DF.groupby('category')[['stock']].aggregate('sum')
 
-#merge the first two dataframes by category
-stats_DF=pd.merge(most_expensive_items_by_cat, highest_price_by_category, how='inner',on='category')
 
-#merge the stats_DF with stock_per_category to get the final DataFrame 
-stats_txt_DF=pd.merge(stats_DF,stock_per_category,how='inner',on='category')
+#merge the most_expensive_items_by_cat with stock_per_category to get the final DataFrame 
+stats_txt_DF=pd.merge(most_expensive_items_by_cat,stock_per_category,how='inner',on='category')
 
 #create a new .txt file with the stats_txt_DF
 with open('stats.txt', 'w') as f:
