@@ -26,7 +26,7 @@ most_expensive_by_cat = {}
 item_stock_by_cat = {}
 
 #loop through the categories of the grouped dictionary and get the most expensive items and sum of stock available
-for category in list(grouped_by_cat.keys()):
+for category in grouped_by_cat:
 
     if len(grouped_by_cat[category]) > 0 : #we need to only get the non empty categories
         
@@ -40,13 +40,13 @@ for category in list(grouped_by_cat.keys()):
                 most_expensive_by_cat[category] = product
                 
             #get the final stock sum for every category
-            stock_sum = stock_sum + product['stock']
+            stock_sum += product['stock']
             item_stock_by_cat[category]=stock_sum
 
 
 #find and display the highest price of all the items
 price_list=[]
-for product in list(most_expensive_by_cat.values()):
+for product in most_expensive_by_cat.values():
     price_list.append(product['price']) 
 
 print(f"The highest price of any item is: {max(price_list)}")
